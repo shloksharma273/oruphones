@@ -1,372 +1,465 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const Homescreen());
-}
+import 'package:google_fonts/google_fonts.dart';
+import 'package:oruphones/constants/app_images.dart';
+import 'package:oruphones/constants/app_icons.dart';
+import 'package:oruphones/widgets/custom_floating_action_button.dart';
+import 'package:oruphones/widgets/homescreen_options_tiles.dart';
+import '../constants/app_colors.dart';
+import '../widgets/home_screen_bottom_tiles.dart';
+import '../widgets/home_screen_crousel.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Eru App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
+      // primary: false,
+      backgroundColor: AppColors.BGColor,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        leading:
+            IconButton(onPressed: () {}, icon: Image.asset(AppIcons.hamburger)),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Image.asset(AppImages.logo, height: 40, width: 61),
+            SizedBox(
+              width: 76,
+            ),
             Text(
-              'eru',
+              "India",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
             ),
-            Text(
-              'Login',
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+            SizedBox(
+              width: 4,
             ),
+            Image.asset(AppIcons.location)
           ],
         ),
+        actions: [
+          SizedBox(
+            height: 33,
+            width: 80,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4)),
+                    padding: EdgeInsets.zero,
+                    backgroundColor: AppColors.homeScreenButtonColor,
+                    elevation: 0),
+                child: Text(
+                  "Login",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Poppins',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          )
+        ],
       ),
+        floatingActionButton: CustomFloatingActionButton(),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 40,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 50,
                 child: SearchBar(
                   hintText: 'Search products or mobile models...',
-                  leading: const Icon(Icons.search),
-                ),
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Sell old phone Privacy'),
+                  hintStyle: WidgetStatePropertyAll(TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Colors.grey.shade400,
+                      fontSize: 12)),
+                  leading: const Icon(
+                    Icons.search,
+                    color: Color(0xffF6C018),
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Buy used phone Privacy'),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Compare Phones'),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('My Profile'),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('App Ratings'),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Advertise'),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Register your store'),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Get App Privacy'),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Stack(
-                children: [
-                  Container(
-                    height: 100,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey[200],
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Get Your Old Phone',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Nearby',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Sell Now'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "What's on your mind?",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _buildIconButton('Buy used phone', Icons.phone_android),
-                  _buildIconButton('Sell used phone', Icons.sell),
-                  _buildIconButton('Compare Phones', Icons.compare),
-                  _buildIconButton('My Profile', Icons.person),
-                  _buildIconButton('My Listings', Icons.list),
-                  _buildIconButton('Store Nearby', Icons.store),
-                  _buildIconButton('Service Health Check', Icons.health_and_safety),
-                  _buildIconButton('Battery Health Check',
-                      Icons.battery_charging_full),
-                  _buildIconButton('User Notification', Icons.notifications),
-                  _buildIconButton('Invite', Icons.person_add),
-                  _buildIconButton('Lucky Draw', Icons.card_giftcard),
-                  _buildIconButton('Order Priority', Icons.priority_high),
-                  _buildIconButton('Promotion', Icons.campaign),
-                  _buildIconButton('Use Reman', Icons.restore),
-                  _buildIconButton('Certified Phones', Icons.verified),
-                  _buildIconButton('My Negotiation', Icons.gavel),
-                  _buildIconButton('My Favorites', Icons.favorite),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Top Brands',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'Sell >',
-                    style: TextStyle(fontSize: 16, color: Colors.green),
-                  ),
-                ],
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _buildBrandButton('Apple'),
-                  _buildBrandButton('MI'),
-                  _buildBrandButton('Oneplus'),
-                  _buildBrandButton('Vivo'),
-                  _buildBrandButton('Motorola'),
-                  _buildBrandButton('Samsung'),
-                  _buildBrandButton('Sign Up'),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Best deals in india',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton(onPressed: () {}, child: const Text('Sell')),
-                TextButton(onPressed: () {}, child: const Text('Videos')),
-              ],
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                  shape: WidgetStateProperty.all(
+                      const ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)))),
+                  elevation: WidgetStatePropertyAll(0),
+                  backgroundColor: WidgetStatePropertyAll(AppColors.BGColor),
+                  side:
+                      WidgetStatePropertyAll(BorderSide(color: AppColors.grey)),
+                  trailing: [
+                    Row(
                       children: [
-                        Image.network(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR54JF-ZsH-Lw-izwZ-tGhuBqZ-YMOA4j-D3w&usqp=CAU',
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
+                        Text(
+                          "|",
+                          style: TextStyle(
+                              color: Colors.grey.shade500, fontSize: 20),
                         ),
-                        const SizedBox(width: 10),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Apple iPhone 13 Pro',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            Text('12 GB RAM - 256 GB ROM'),
-                            Text('\u{20B9} 41,500'),
-                            Row(
-                              children: [
-                                Text('Yesterday in Mumbai'),
-                                Icon(Icons.location_on,
-                                    size: 16, color: Colors.green),
-                              ],
-                            ),
-                          ],
-                        ),
+                        Icon(
+                          Icons.mic_none_sharp,
+                          color: Colors.grey.shade500,
+                        )
                       ],
-                    ),
-                  ),
-                );
-              },
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Frequently Asked Questions',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               ),
-            ),
-            ExpansionTile(
-              title: const Text('Why should you buy used phones on OnlPhones?'),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      'Buying used phones can be a great way to save money while still getting a high-quality device. OnlPhones offers a wide selection of used phones, so you can find the perfect one for your needs.'),
-                ),
-              ],
-            ),
-            ExpansionTile(
-              title: const Text('How to sell phone on OnlPhones?'),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      'Selling your phone on OnlPhones is easy! Just create a listing, set your price, and wait for buyers to contact you.'),
-                ),
-              ],
-            ),
-            Container(
-              color: Colors.yellow[700],
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Column(
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
                   children: [
-                    Text(
-                        'Get Notified About Our Latest Offers and Price Drops',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                    TextField(
-                      decoration: InputDecoration(
-                          hintText: 'Enter your email',
-                          border: OutlineInputBorder()),
+                    HomeScreenOptionsTiles(
+                        onPressed: () {}, title: "Sell Your Phone"),
+                    SizedBox(width: 10),
+                    HomeScreenOptionsTiles(
+                        onPressed: () {}, title: "Buy Used Phone"),
+                    SizedBox(width: 10),
+                    HomeScreenOptionsTiles(
+                        onPressed: () {}, title: "Compare Prices"),
+                    SizedBox(width: 10),
+                    HomeScreenOptionsTiles(
+                        onPressed: () {}, title: "My Profile"),
+                    SizedBox(width: 10),
+                    HomeScreenOptionsTiles(
+                        onPressed: () {}, title: "My Listing"),
+                    SizedBox(width: 10),
+                    HomeScreenOptionsTiles(onPressed: () {}, title: "Services"),
+                    SizedBox(width: 10),
+                    HomeScreenOptionsTiles(
+                        onPressed: () {}, title: "Register your Store"),
+                    SizedBox(width: 10),
+                    HomeScreenOptionsTiles(
+                        onPressed: () {}, title: "Get the App"),
+                    SizedBox(width: 10),
+                    HomeScreenOptionsTiles(
+                        onPressed: () {}, title: "Sell Your Phone"),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              HomeScreenCrousel(),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                "What's on your mind?",
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    HomeScreenBottomTiles(
+                      image: AppImages.cart,
+                      onPressed: () {},
+                      text: 'Buy Used Phones',
                     ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: null,
-                      child: Text('Search'),
+                    HomeScreenBottomTiles(
+                      image: AppImages.price_tag,
+                      onPressed: () {},
+                      text: 'Sell Used Phones',
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Download App',
-                      style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    HomeScreenBottomTiles(
+                      image: AppImages.price_tags,
+                      onPressed: () {},
+                      text: 'Compare Prices',
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Icon(Icons.qr_code),
-                            Text(''),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Icon(Icons.qr_code),
-                            Text(''),
-                          ],
-                        ),
-                      ],
+                    HomeScreenBottomTiles(
+                      image: AppImages.profile,
+                      onPressed: () {},
+                      text: 'My Profile',
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Invite a Friend',
-                      style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    HomeScreenBottomTiles(
+                      image: AppImages.docs,
+                      onPressed: () {},
+                      text: 'My Listings',
                     ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(Icons.android),
-                        Icon(Icons.apple),
-                      ],
+                    HomeScreenBottomTiles(
+                      image: AppImages.store,
+                      onPressed: () {},
+                      text: 'Open Store',
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Go Share',
-                      style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    HomeScreenBottomTiles(
+                      image: AppImages.settings,
+                      onPressed: () {},
+                      text: 'Services',
                     ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(Icons.facebook),
-                        Icon(Icons.share),
-                        Icon(Icons.sms),
-                        Icon(Icons.text_decrease),
-                      ],
+                    HomeScreenBottomTiles(
+                      image: AppImages.health,
+                      onPressed: () {},
+                      text: 'Device Health Check',
+                    ),
+                    HomeScreenBottomTiles(
+                      image: AppImages.battery,
+                      onPressed: () {},
+                      text: 'Battery Health Check',
+                    ),
+                    HomeScreenBottomTiles(
+                      image: AppImages.sim,
+                      onPressed: () {},
+                      text: 'IMEI Verification',
+                    ),
+                    HomeScreenBottomTiles(
+                      image: AppImages.phone,
+                      onPressed: () {},
+                      text: 'IMEI Verification',
                     ),
                   ],
                 ),
               ),
-            )
-          ],
+              SizedBox(
+                height: 24,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Top Brands',
+                    style: GoogleFonts.poppins(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.arrow_forward_ios),
+                    iconSize: 20,
+                  ),
+                ],
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      AppImages.apple,
+                      width: 70,
+                    ),
+                    Image.asset(
+                      AppImages.mi,
+                      width: 70,
+                    ),
+                    Image.asset(
+                      AppImages.samsung,
+                      width: 70,
+                    ),
+                    Image.asset(
+                      AppImages.vivo,
+                      width: 70,
+                    ),
+                    Image.asset(
+                      AppImages.realme,
+                      width: 70,
+                    ),
+                    Image.asset(
+                      AppImages.motorola,
+                      width: 70,
+                    ),
+                    Image.asset(
+                      AppImages.oppo,
+                      width: 70,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xffF2F2F2),
+                      ),
+                      height: 64,
+                      width: 64,
+                      child: TextButton(
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              Text(
+                                "View all",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 8, fontWeight: FontWeight.w500),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 8,
+                              )
+                            ],
+                          )),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 42,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Best deals in india',
+                    style: GoogleFonts.poppins(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(onPressed: () {}, child: const Text('Sell')),
+                  TextButton(onPressed: () {}, child: const Text('Videos')),
+                ],
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 6,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Image.network(
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR54JF-ZsH-Lw-izwZ-tGhuBqZ-YMOA4j-D3w&usqp=CAU',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                          const SizedBox(width: 10),
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Apple iPhone 13 Pro',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Text('12 GB RAM - 256 GB ROM'),
+                              Text('\u{20B9} 41,500'),
+                              Row(
+                                children: [
+                                  Text('Yesterday in Mumbai'),
+                                  Icon(Icons.location_on,
+                                      size: 16, color: Colors.green),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Text(
+                'Frequently Asked Questions',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              ExpansionTile(
+                title:
+                    const Text('Why should you buy used phones on OnlPhones?'),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                        'Buying used phones can be a great way to save money while still getting a high-quality device. OnlPhones offers a wide selection of used phones, so you can find the perfect one for your needs.'),
+                  ),
+                ],
+              ),
+              ExpansionTile(
+                title: const Text('How to sell phone on OnlPhones?'),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                        'Selling your phone on OnlPhones is easy! Just create a listing, set your price, and wait for buyers to contact you.'),
+                  ),
+                ],
+              ),
+              Container(
+                color: Colors.yellow[700],
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                          'Get Notified About Our Latest Offers and Price Drops',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      TextField(
+                        decoration: InputDecoration(
+                            hintText: 'Enter your email',
+                            border: OutlineInputBorder()),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: null,
+                        child: Text('Search'),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Download App',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              Icon(Icons.qr_code),
+                              Text(''),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Icon(Icons.qr_code),
+                              Text(''),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Invite a Friend',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.android),
+                          Icon(Icons.apple),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Go Share',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.facebook),
+                          Icon(Icons.share),
+                          Icon(Icons.sms),
+                          Icon(Icons.whatshot),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
