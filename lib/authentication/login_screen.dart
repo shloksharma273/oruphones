@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oruphones/backend/authentication_methods.dart';
 import 'package:oruphones/constants/app_colors.dart';
 import 'package:oruphones/constants/app_images.dart';
 import 'package:oruphones/widgets/appbutton_witharrow.dart';
@@ -14,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _termsAccepted = false;
   final TextEditingController _mobileNumberController = TextEditingController();
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 10),
                 // Next Button
                 AppButtonWithArrow(
-                  onPressed: () {
+                  onPressed: () async {
                     String mobileNumber = _mobileNumberController.text;
                     if (mobileNumber.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Mobile Number can't be empty"),));
@@ -175,12 +177,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       return;
                     }
                     print("Mobile Number: $mobileNumber");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => VerifyOtp(mobileNumber: mobileNumber),
-                      ),
-                    );
+                    if(await authenticationMethods.sendOtp(countryCode: 91, mobileNumber: int.parse(mobileNumber)) && _termsAccepted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VerifyOtp(mobileNumber: mobileNumber),
+                        ),
+                      );
+                    } else if (!_termsAccepted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Please Accept Terms & Conditions")),
+                      );
+                    }
                   },
                   title: "Next",
                 )

@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:oruphones/authentication/account_not_found.dart';
 import 'package:oruphones/authentication/login_screen.dart';
+import 'package:oruphones/backend/authentication_methods.dart';
+import 'package:oruphones/homescreen/homescreen.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
 import 'package:oruphones/constants/app_colors.dart';
 import 'package:oruphones/constants/app_images.dart';
 import 'package:oruphones/widgets/appbutton_witharrow.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyOtp extends StatefulWidget {
   final String mobileNumber;
@@ -17,6 +20,8 @@ class VerifyOtp extends StatefulWidget {
 
 class _VerifyOtpState extends State<VerifyOtp> {
   bool _termsAccepted = false;
+  String _otp = "";
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
 
   List<String> otp = ['', '', '', ''];
   int timerSeconds = 23;
@@ -88,6 +93,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
     }
   }
 
+  Future<String?> loadCookie() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("session_cookie");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,13 +105,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
         backgroundColor: AppColors.BGColor,
         elevation: 0,
         leading: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const LoginScreen()),
-              );
-            },
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+            );
+          },
           icon: const Icon(Icons.arrow_back, color: Colors.black),
         ),
         actions: [
@@ -184,7 +193,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   child: Pinput(
                     length: 4,
                     onChanged: (value) {
-                      setState(() {});
+                      setState(() {
+                        _otp = value;
+                      });
                     },
                     defaultPinTheme: PinTheme(
                       width: 50,
@@ -245,12 +256,37 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 SizedBox(height: 80),
                 // Next Button
                 AppButtonWithArrow(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AccountNotFound()),
-                      );
+                    onPressed: () async {
+                      print("cookies: ${await loadCookie()}");
+                      if (await authenticationMethods.verifyOTP(
+                          widget.mobileNumber, _otp)) {
+                        String? sessionCookie = await authenticationMethods.loadCookie();
+                        await authenticationMethods.checkLoginStatus(sessionCookie ?? "");
+
+                        // String userName = authenticationMethods.userData!['user']['userName'];
+                        print(await authenticationMethods.loadCookie());
+                        Map<String, dynamic>? userData = await authenticationMethods.loadUserData();
+                        if (userData != null && userData['user'] != null && (userData['user']['userName'] as String).isNotEmpty) {
+                          print(
+                              "name: ${userData?['user']['userName']}");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()),
+                          );
+                        } else {
+                          print("name is null");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AccountNotFound()),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Wrong OTP")),
+                        );
+                      }
                     },
                     title: "Verify OTP")
               ],
@@ -261,3 +297,5 @@ class _VerifyOtpState extends State<VerifyOtp> {
     );
   }
 }
+
+// {isLoggedIn: true, sessionId: 67ab77abfdc605c68af467bf, user: {userName: , email: , profilePicPath: , city: , state: , mobileNumber: 9354737630, isAccountExpired: false, createdDate: 02/11/2025, favListings: [], userListings: [], userType: , WAOptIn: true}, csrfToken: d73722b8-b523-4695-9cc7-458754d6ab47}

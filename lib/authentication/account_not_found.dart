@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:oruphones/backend/authentication_methods.dart';
 import 'package:oruphones/constants/app_colors.dart';
 import 'package:oruphones/constants/app_images.dart';
 import 'package:oruphones/widgets/appbutton_witharrow.dart';
 import 'package:oruphones/authentication/verify_otp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../homescreen/homescreen.dart';
 
 class AccountNotFound extends StatefulWidget {
   const AccountNotFound({super.key});
@@ -13,6 +19,13 @@ class AccountNotFound extends StatefulWidget {
 
 class _AccountNotFoundState extends State<AccountNotFound> {
   final TextEditingController _nameController = TextEditingController();
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
+
+  Future<Map<String, dynamic>?> loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userDataString = prefs.getString("user_data");
+    return userDataString != null ? jsonDecode(userDataString) : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +134,35 @@ class _AccountNotFoundState extends State<AccountNotFound> {
                 // Terms and Conditions
                 SizedBox(height: 10),
                 // Next Button
-                AppButtonWithArrow(onPressed: (){}, title: "Confirm Name"),
+                AppButtonWithArrow(
+                    onPressed: () async {
+                      // Load current user data (needed to extract the CSRF token)
+                      Map<String, dynamic>? userData = await authenticationMethods.loadUserData();
+                      print("User data before update: $userData");
+
+                      // Extract CSRF token from the stored user data
+                      String csrfToken = userData!['csrfToken'];
+
+                      // Call updateUser and wait for it to complete
+                      await authenticationMethods.updateUser("+91", _nameController.text, csrfToken);
+
+                      // Refresh user data by calling checkLoginStatus so that local storage gets updated.
+                      // (checkLoginStatus fetches the latest user info from the backend and calls saveUserData)
+                      await authenticationMethods.checkLoginStatus(""); // Passing empty string since method reloads the cookie internally
+
+                      // Now load the updated user data from SharedPreferences
+                      Map<String, dynamic>? updatedUserData = await authenticationMethods.loadUserData();
+                      print("Updated username: ${updatedUserData?['user']['userName']}");
+
+                      // Navigate to the Homescreen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HomeScreen()),
+                      );
+                    },
+                    title: "Confirm Name"
+                )
+                ,
               ],
             ),
           ),

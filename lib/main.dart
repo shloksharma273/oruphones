@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oruphones/authentication/splash_screen.dart';
 import 'package:oruphones/homescreen/homescreen.dart';
 
 import 'authentication/login_screen.dart';
@@ -14,6 +15,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: Homescreen());
+        debugShowCheckedModeBanner: false, home: SplashScreen());
   }
 }

@@ -31,6 +31,15 @@ class AppImages {
   static const motorola = "${basePath}motorola.png";
   static const oppo = "${basePath}opppo.png";
   static const viewall = "${basePath}viewall.png";
+  static const iphone = "${basePath}iPhone.png";
+  static const verified = "${basePath}ORUVerified.png";
+  static const appleQR = "${basePath}appleQR.png";
+  static const pplaystoreQR = "${basePath}playstore.png";
+  static const footer = "${basePath}Footer.png";
+  static const instagram = "${basePath}instagram.png";
+  static const telegram = "${basePath}telegram.png";
+  static const x = "${basePath}x.png";
+  static const whatsapp = "${basePath}whatsapp.png";
 
 
 
