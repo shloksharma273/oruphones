@@ -4,11 +4,12 @@ import 'package:oruphones/constants/app_images.dart';
 import 'package:oruphones/constants/app_icons.dart';
 import 'package:oruphones/homescreen_widgets/custom_appbar.dart';
 import 'package:oruphones/widgets/custom_floating_action_button.dart';
-import 'package:oruphones/widgets/homescreen_options_tiles.dart';
+import 'package:oruphones/homescreen_widgets/homescreen_options_tiles.dart';
 import '../constants/app_colors.dart';
-import '../widgets/home_screen_bottom_tiles.dart';
-import '../widgets/home_screen_crousel.dart';
-import '../widgets/product_card.dart';
+import '../homescreen_widgets/oru_sidebar.dart';
+import '../homescreen_widgets/home_screen_bottom_tiles.dart';
+import '../homescreen_widgets/home_screen_crousel.dart';
+import '../homescreen_widgets/product_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,7 +19,12 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       // primary: false,
       backgroundColor: AppColors.BGColor,
-      appBar: CustomAppbar(),
+      appBar: CustomAppbar(
+        openDrawer: () {
+          Scaffold.of(context).openDrawer();
+        },
+      ),
+      drawer: OruSidebar(),
       floatingActionButton: CustomFloatingActionButton(),
       body: SingleChildScrollView(
         child: Column(

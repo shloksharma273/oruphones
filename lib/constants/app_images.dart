@@ -40,7 +40,7 @@ class AppImages {
   static const telegram = "${basePath}telegram.png";
   static const x = "${basePath}x.png";
   static const whatsapp = "${basePath}whatsapp.png";
-
-
+  static const compare = "${basePath}Compare.png";
+  static const sell = "${basePath}Sell.png";
 
 }

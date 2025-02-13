@@ -113,6 +113,37 @@ class AuthenticationMethods {
     }
   }
 
+  Future<bool> logout(String csrfToken) async {
+    final String url = "http://40.90.224.241:5000/logout";
+    // Load the session cookie from SharedPreferences
+    String? sessionCookie = await loadCookie();
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "X-Csrf-Token": csrfToken,
+          "Content-Type": "application/json",
+          "Cookie": sessionCookie ?? "",
+        },
+      );
+      if (response.statusCode == 200) {
+        // Clear saved session cookie and user data on successful logout
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.remove("session_cookie");
+        await prefs.remove("user_data");
+        print("Logout successful");
+        return true;
+      } else {
+        print("Failed to logout: ${response.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      print("Error during logout: $e");
+      return false;
+    }
+  }
+
 
   Future<void> fetchAndStoreCookie(http.Response response) async {
     String? rawCookie = response.headers['set-cookie'];
